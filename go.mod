@@ -1,4 +1,4 @@
-module bitbucket.org/bfitzsimmons/gadgets/v1
+module bitbucket.org/bfitzsimmons/gadgets
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
