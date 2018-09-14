@@ -19,6 +19,11 @@ func TestSlugify(t *testing.T) {
 		want string
 	}{
 		{
+			name: "empty",
+			args: args{},
+			want: "",
+		},
+		{
 			name: "basic",
 			args: args{"name"},
 			want: "name",
@@ -36,7 +41,12 @@ func TestSlugify(t *testing.T) {
 		{
 			name: "basic special characters",
 			args: args{"it's a special character"},
-			want: "its-a-special-character",
+			want: "it-s-a-special-character",
+		},
+		{
+			name: "multiple special characters",
+			args: args{":;^&%$#@|[]{}' That's a *lot* of \"special\" characters!"},
+			want: "that-s-a-lot-of-special-characters",
 		},
 		{
 			name: "underscores",
@@ -54,6 +64,11 @@ func TestSlugify(t *testing.T) {
 			want: "this-is-a-sentence",
 		},
 		{
+			name: "single quotes",
+			args: args{"We're in here, and they're out there."},
+			want: "we-re-in-here-and-they-re-out-there",
+		},
+		{
 			name: "special character prefix and suffix",
 			args: args{"¿Are you kidding?"},
 			want: "are-you-kidding",
@@ -64,9 +79,19 @@ func TestSlugify(t *testing.T) {
 			want: "name",
 		},
 		{
-			name: "crazy",
+			name: "slashes",
+			args: args{"this/that/the other"},
+			want: "this-that-the-other",
+		},
+		{
+			name: "pipes",
+			args: args{"this|that|the other"},
+			want: "this-that-the-other",
+		},
+		{
+			name: "fun",
 			args: args{"I'm so excited, and I just can't hide it. I'm about to lose control, and I think I like it! -- The Pointer Sisters (1982) "},
-			want: "im-so-excited-and-i-just-cant-hide-it-im-about-to-lose-control-and-i-think-i-like-it-the-pointer-sisters-1982",
+			want: "i-m-so-excited-and-i-just-can-t-hide-it-i-m-about-to-lose-control-and-i-think-i-like-it-the-pointer-sisters-1982",
 		},
 	}
 

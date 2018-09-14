@@ -11,12 +11,8 @@ func Slugify(input string) string {
 	// Make lower case.
 	input = strings.ToLower(input)
 
-	// Deal with hyphens and underscores.
-	input = strings.Replace(input, "-", " ", -1)
-	input = strings.Replace(input, "_", " ", -1)
-
 	// Remove non-alphanumeric characters.
-	input = regexp.MustCompile(`[^a-z0-9 ]`).ReplaceAllString(input, "")
+	input = regexp.MustCompile(`[^a-z0-9 ]+`).ReplaceAllString(input, " ")
 
 	// Replace spaces with "-".
 	input = strings.Join(strings.Fields(input), "-")
