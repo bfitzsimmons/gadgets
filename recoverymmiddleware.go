@@ -15,7 +15,8 @@ func RecoveryMiddleware(next http.Handler) http.Handler {
 			----------------------------------------------------------------------------*/
 			// This will execute at the end of the function.
 			defer func() {
-				if rval := recover(); rval != nil {
+				rval := recover()
+				if rval != nil {
 					// Log the error and return a 500.
 					HTTPError(w, "Something went very wrong", fmt.Errorf("Panic recovery :: %+v", rval), http.StatusInternalServerError)
 
