@@ -9,6 +9,9 @@ import (
 // TimerMiddleware times the request/response time.
 func TimerMiddleware(next http.Handler) http.Handler {
 	timerFunc := func(w http.ResponseWriter, r *http.Request) {
+		/*----------------------------------------------------------------------
+		Request side.
+		----------------------------------------------------------------------*/
 		// Start the timer.
 		startTime := time.Now()
 
