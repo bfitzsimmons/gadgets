@@ -8,25 +8,27 @@ import (
 
 // RecoveryMiddleware recovers from any panics experienced during the handling of web requests.
 func RecoveryMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(
-		func(w http.ResponseWriter, r *http.Request) {
-			/*----------------------------------------------------------------------------
-			Request side.
-			----------------------------------------------------------------------------*/
-			// This will execute at the end of the function.
-			defer func() {
-				rval := recover()
-				if rval != nil {
-					// Log the error and return a 500.
-					HTTPError(w, "Something went very wrong", fmt.Errorf("Panic recovery :: %+v", rval), http.StatusInternalServerError)
+	recoveryFunc := func(w http.ResponseWriter, r *http.Request) {
+		// This will execute when the function returns for *any* reason.
+		defer func() {
+			recovered := recover()
+			if recovered != nil {
+				// Log the error and return a 500.
+				HTTPError(
+					w,
+					"Something went very wrong",
+					fmt.Errorf("panic recovery :: %+v", recovered),
+					http.StatusInternalServerError,
+				)
 
-					// Print the stacktrace.
-					debug.PrintStack()
-				}
-			}()
+				// Print the stacktrace.
+				debug.PrintStack()
+			}
+		}()
 
-			// Send the request on to the next handler.
-			next.ServeHTTP(w, r)
-		},
-	)
+		// Send the request on to the next handler.
+		next.ServeHTTP(w, r)
+	}
+
+	return http.HandlerFunc(recoveryFunc)
 }
