@@ -15,7 +15,5 @@ func Slugify(input string) string {
 	input = regexp.MustCompile(`[^a-z0-9 ]+`).ReplaceAllString(input, " ")
 
 	// Replace spaces with "-".
-	input = strings.Join(strings.Fields(input), "-")
-
-	return input
+	return strings.Join(strings.Fields(input), "-")
 }
